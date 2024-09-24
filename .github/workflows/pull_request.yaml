@@ -51,7 +51,7 @@ jobs:
             --ref $GITHUB_REF \
             --commit $GITHUB_SHA
       
-              - name: Run Score
+      - name: Run Score
         run: |
           humctl score deploy \
               --token ${{ secrets.HUMANITEC_TOKEN }} \
