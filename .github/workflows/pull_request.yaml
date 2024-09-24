@@ -6,11 +6,10 @@ permissions:
   contents: read
   pull-requests: write
 env:
-  APP_NAME: jaytest101
-  IMAGE: jaytest101
-  AWS_REGION: ${{ vars.AWS_REGION }}
-  AWS_ROLE_ARN: ${{ vars.AWS_ROLE_ARN }}
-
+  APP_NAME: {{SERVICE_NAME}}
+  CONTAINER_REGISTRY: docker.io
+  IMAGE: stefandprodan/podinfo
+  TAG: latest
   BASE_ENVIRONMENT: 'development'
   ENVIRONMENT_TYPE: 'development'
   HUMCTL_VERSION: '0.25.0'
@@ -26,7 +25,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: humanitec/setup-cli-action@v1
         with:
           version: ${{ env.HUMCTL_VERSION }}
@@ -40,47 +39,6 @@ jobs:
               -t ${{ env.ENVIRONMENT_TYPE }} \
               --from ${{ env.BASE_ENVIRONMENT }} \
               || true
-      - name: Set Tag with SHA
-        run: echo "TAG=`echo $GITHUB_SHA | cut -c 1-7`" >> $GITHUB_ENV
-
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ env.AWS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: login to aws ecr
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          mask-password: 'true'
-
-      - name: create repo if not existing
-        id: create-repo
-        uses: int128/create-ecr-repository-action@v1
-        with:
-          repository: ${{ env.IMAGE }}
-
-      - name: "set CONTAINER_REGISTRY env var"
-        run: |
-          echo "CONTAINER_REGISTRY=$REGISTRY" >> "$GITHUB_ENV"
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-
-
-      - run: docker build --platform linux/amd64 . -t $CONTAINER_REGISTRY/$IMAGE:$TAG
-      - run: docker push $CONTAINER_REGISTRY/$IMAGE:$TAG
-
-      - name: Inform Humanitec
-        run: |-
-          humctl create artefact-version \
-            --token ${{ secrets.HUMANITEC_TOKEN }} \
-            --org ${{ vars.HUMANITEC_ORG_ID }} \
-            -t container \
-            -n $CONTAINER_REGISTRY/$IMAGE \
-            --version $TAG \
-            --ref $GITHUB_REF \
-            --commit $GITHUB_SHA
 
       - name: Run Score
         run: |
@@ -92,7 +50,7 @@ jobs:
               -f score.yaml \
               --extensions humanitec.score.yaml \
               --workload-source-url "https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/score.yaml" \
-              --image $CONTAINER_REGISTRY/$IMAGE:$TAG \
+              --image ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE }}:${{ env.TAG }} \
               --message "$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "${{ github.event.pull_request.commits_url }}?per_page=10" | jq -r .[-1].commit.message)" \
               --wait
       - name: Build Comment Message

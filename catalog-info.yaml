@@ -1,10 +1,10 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: "jaytest101"
+  name: "{{SERVICE_NAME}}"
   annotations:
-    "humanitec.com/orgId": "htc-demo-35"
-    "humanitec.com/appId": "jaytest101"
+    "humanitec.com/orgId": "port-webinar"
+    "humanitec.com/appId": "{{SERVICE_NAME}}"
 spec:
   type: service
   owner: user:guest

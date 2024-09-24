@@ -1,4 +1,4 @@
-# Podinfo - Jaytest101
+# Podinfo - base microservice
 
 A simple score project deploying podinfo.
 
