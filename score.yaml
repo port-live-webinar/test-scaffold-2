@@ -16,8 +16,6 @@ containers:
       Hello: World
 
 resources:
-  myria:
-    type: mysql
   dns: # We need a DNS record to point to the service 
     type: dns
   route:
