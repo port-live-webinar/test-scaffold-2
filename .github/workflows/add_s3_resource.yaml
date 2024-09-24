@@ -6,7 +6,7 @@ on:
       port_context:
         required: true
         description: Includes the action's run id
-        
+
 jobs:
   update-score-file:
     runs-on: ubuntu-latest
@@ -14,10 +14,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-
-    - name: Install yq
-      run: |
-        sudo apt-get update && sudo apt-get install -y yq
 
     - name: Commit changes
       run: |
