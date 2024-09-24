@@ -8,7 +8,7 @@ permissions:
 env:
   APP_NAME: {{SERVICE_NAME}}
   CONTAINER_REGISTRY: docker.io
-  IMAGE: stefandprodan/podinfo
+  IMAGE: stefanprodan/podinfo
   TAG: latest
   BASE_ENVIRONMENT: 'development'
   ENVIRONMENT_TYPE: 'development'
