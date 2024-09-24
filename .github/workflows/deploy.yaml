@@ -34,8 +34,8 @@ jobs:
             --token ${{ secrets.HUMANITEC_TOKEN }} \
             --org ${{ vars.HUMANITEC_ORG_ID }} \
             -t container \
-            -n $CONTAINER_REGISTRY/$IMAGE \
-            --version $TAG \
+            -n ${{ env.CONTAINER_REGISTRY }}/${{ env.IMAGE }} \
+            --version ${{ env.TAG }} \
             --ref $GITHUB_REF \
             --commit $GITHUB_SHA
 
