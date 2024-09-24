@@ -48,7 +48,7 @@ jobs:
 
       - name: Create matching criteria
         run: |
-          export CRITERIA_ID=$(humctl api post --token ${{ secrets.HUMANITEC_TOKEN }} --org ${{ vars.HUMANITEC_ORG_ID }} \ /orgs/${{ vars.HUMANITEC_ORG_ID }}/resources/defs/${{ env.K8S_RESDEF }}/criteria \
+          export CRITERIA_ID=$(humctl api post --token ${{ secrets.HUMANITEC_TOKEN }} --org ${{ vars.HUMANITEC_ORG_ID }} /orgs/${{ vars.HUMANITEC_ORG_ID }}/resources/defs/${{ env.K8S_RESDEF }}/criteria \
             -d '{
             "app_id": "'${{ env.APP_NAME }}'"
           }' | jq --raw-output '.id' )
