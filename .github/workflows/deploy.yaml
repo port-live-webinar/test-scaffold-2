@@ -13,6 +13,7 @@ env:
   CONTAINER_REGISTRY: docker.io
   IMAGE: stefandprodan/podinfo
   TAG: latest
+  K8S_RESDEF: aws-quickstart
 
 
 jobs:
@@ -38,6 +39,18 @@ jobs:
             --version ${{ env.TAG }} \
             --ref $GITHUB_REF \
             --commit $GITHUB_SHA
+
+      - name: Create app
+        run: |
+          humctl create app ${{ env.APP_NAME }}
+
+      - name: Create matching criteria
+        run: |
+          export CRITERIA_ID=$(humctl api post /orgs/${{ vars.HUMANITEC_ORG_ID }}/resources/defs/${{ env.K8S_RESDEF }}/criteria \
+            -d '{
+            "app_id": "'${{ env.APP_NAME }}'"
+          }' | jq --raw-output '.id' )
+          echo $CRITERIA_ID
 
       - name: Deploy using Score
         run: |
