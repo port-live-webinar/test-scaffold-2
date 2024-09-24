@@ -42,11 +42,13 @@ jobs:
 
       - name: Create app
         run: |
-          humctl create app ${{ env.APP_NAME }} --token ${{ secrets.HUMANITEC_TOKEN }}
+          humctl create app ${{ env.APP_NAME }} \
+           --token ${{ secrets.HUMANITEC_TOKEN }} \
+           --org ${{ vars.HUMANITEC_ORG_ID }} \
 
       - name: Create matching criteria
         run: |
-          export CRITERIA_ID=$(humctl api post --token ${{ secrets.HUMANITEC_TOKEN }} /orgs/${{ vars.HUMANITEC_ORG_ID }}/resources/defs/${{ env.K8S_RESDEF }}/criteria \
+          export CRITERIA_ID=$(humctl api post --token ${{ secrets.HUMANITEC_TOKEN }} --org ${{ vars.HUMANITEC_ORG_ID }} \ /orgs/${{ vars.HUMANITEC_ORG_ID }}/resources/defs/${{ env.K8S_RESDEF }}/criteria \
             -d '{
             "app_id": "'${{ env.APP_NAME }}'"
           }' | jq --raw-output '.id' )
