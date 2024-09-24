@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "jaytest101"
+  annotations:
+    "humanitec.com/orgId": "htc-demo-35"
+    "humanitec.com/appId": "jaytest101"
+spec:
+  type: service
+  owner: user:guest
+  lifecycle: experimental
