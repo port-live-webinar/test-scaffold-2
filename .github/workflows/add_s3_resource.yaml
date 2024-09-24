@@ -2,7 +2,11 @@ name: Update score.yaml and Open PR
 
 on:
   workflow_dispatch:
-
+    inputs:
+      port_context:
+        required: true
+        description: Includes the action's run id
+        
 jobs:
   update-score-file:
     runs-on: ubuntu-latest
