@@ -15,6 +15,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Update score.yaml file using yq
+      run: |
+        yq eval '.resources.storage.type = "s3"' -i score.yaml
+
     - name: Commit changes
       run: |
         git config user.name "github-actions[bot]"
