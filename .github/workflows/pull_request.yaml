@@ -6,7 +6,7 @@ permissions:
   contents: read
   pull-requests: write
 env:
-  APP_NAME: {{SERVICE_NAME}}
+  APP_NAME: test-scaffold-2
   CONTAINER_REGISTRY: docker.io
   IMAGE: stefanprodan/podinfo
   TAG: latest

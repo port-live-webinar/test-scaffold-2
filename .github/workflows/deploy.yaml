@@ -1,4 +1,4 @@
-name: Deploy {{SERVICE_NAME}}
+name: Deploy test-scaffold-2
 
 on:
   push:
@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 env:
   HUMCTL_VERSION: '0.25.0'
-  APP_NAME: {{SERVICE_NAME}}
+  APP_NAME: test-scaffold-2
   CONTAINER_REGISTRY: docker.io
   IMAGE: stefanprodan/podinfo
   TAG: latest

@@ -5,7 +5,7 @@ on:
       - closed
 
 env:
-  APP_NAME: {{SERVICE_NAME}}
+  APP_NAME: test-scaffold-2
   ENVIRONMENT_ID: pr-${{ github.event.number }}
   HUMCTL_VERSION: '0.25.0'
 
